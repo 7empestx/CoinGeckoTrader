@@ -1,1 +1,1 @@
-# TwitterTrader
+# CoinGeckoTrader
