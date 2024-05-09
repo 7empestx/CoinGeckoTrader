@@ -1,1 +1,1 @@
-# CoinGeckoTrader
+# TrendBit
