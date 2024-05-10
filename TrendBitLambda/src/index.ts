@@ -10,40 +10,31 @@ const SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:NewCoinAlerts';  // Up
 
 // Ensure 'count' is initialized as a Number if not already existing
 const updateCoinData = async (coin: any): Promise<void> => {
-    console.log('Updating coin data:', coin);
     const params = {
         TableName: 'TrendingCoins',
         Key: { id: coin.id },
-        UpdateExpression: 'SET #n = :name, #s = :symbol, #r = :rank, #t = list_append(if_not_exists(#t, :empty_list), :new_ts), ADD #c :one',
+        UpdateExpression: 'SET #n = :name, #s = :symbol, #r = :rank, ADD #c :inc',
         ExpressionAttributeNames: {
             '#n': 'name',
             '#s': 'symbol',
             '#r': 'marketCapRank',
-            '#c': 'count',
-            '#t': 'timestamps'
+            '#c': 'count'
         },
         ExpressionAttributeValues: {
             ':name': coin.name,
             ':symbol': coin.symbol,
             ':rank': coin.marketCapRank,
-            ':one': 1,
-            ':empty_list': [],
-            ':new_ts': [new Date().toISOString()]
+            ':inc': 1
         },
         ReturnValues: 'ALL_NEW'
     };
 
     try {
         const response = await db.update(params).promise();
-        if (response.Attributes && response.Attributes.count === 1) {
-            await sns.publish({
-                TopicArn: SNS_TOPIC_ARN,
-                Message: `New coin detected: ${coin.name} (${coin.symbol}) is now trending!`
-            }).promise();
-        }
+        console.log('Updated response:', response);
     } catch (error) {
         console.error('Error updating coin data:', error);
-        throw error;  // Re-throwing the error is good for catching it in the higher-level function
+        throw error;
     }
 };
 
