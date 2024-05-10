@@ -11,7 +11,7 @@ const SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:NewCoinAlerts';  // Up
 // Ensure 'count' is initialized as a Number if not already existing
 const updateCoinData = async (coin: any): Promise<void> => {
     const params = {
-        TableName: 'TrendingCoins',
+        TableName: 'TrendingCoinsTableV2',
         Key: { id: coin.id },
         UpdateExpression: 'SET #n = :name, #s = :symbol, #r = :rank, ADD #c :inc',
         ExpressionAttributeNames: {
