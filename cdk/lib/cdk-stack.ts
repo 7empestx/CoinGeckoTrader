@@ -248,8 +248,7 @@ export class CdkStack extends cdk.Stack {
 
     // Create a new DynamoDB Table
     const table = new dynamodb.Table(this, 'TrendingCoinsTable', {
-      partitionKey: { name: 'symbol', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'timestamp', type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       tableName: 'TrendingCoins',
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY
