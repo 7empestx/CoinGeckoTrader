@@ -1,3 +1,4 @@
 TrendBitFrontend/node_modules
 TrendBitLambda/node_modules
+TrendBitLambda/.env
 cdk/node_modules
