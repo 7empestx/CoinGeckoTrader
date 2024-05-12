@@ -227,13 +227,22 @@ export class CdkStack extends cdk.Stack {
       proxy: false,
     });
 
-    // Define the CORS options
-    const questionResource = api.root.addResource("trends");
-    questionResource.addMethod(
+    const updateTrendingCoins = api.root.addResource("update-trending-coins");
+    updateTrendingCoins.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(trendbitLambdaFunction),
+    );
+    updateTrendingCoins.addCorsPreflight({
+      allowOrigins: ["*"],
+      allowMethods: ["POST"],
+    });
+
+    const getTrendingCoins = api.root.addResource("get-trending-coins");
+    getTrendingCoins.addMethod(
       "GET",
       new apigateway.LambdaIntegration(trendbitLambdaFunction),
     );
-    questionResource.addCorsPreflight({
+    getTrendingCoins.addCorsPreflight({
       allowOrigins: ["*"],
       allowMethods: ["GET"],
     });
