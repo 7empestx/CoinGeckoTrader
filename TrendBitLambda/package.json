@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
-    "start": "node dist/index.js",
+    "start": "nodemon dist/index.js",
     "dev": "ts-node src/index.ts",
     "docker:build": "docker build --platform linux/amd64 -t docker-image:gemini .",
     "docker:run": " docker run --platform linux/amd64 -p 9000:8080 --env-file .env docker-image:gemini",
@@ -16,6 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "@middy/core": "^5.3.4",
+    "@middy/http-cors": "^5.3.4",
+    "@middy/http-error-handler": "^5.3.4",
     "@middy/http-header-normalizer": "^5.3.4",
     "@middy/http-router": "^5.3.4",
     "@middy/validator": "^5.3.4",

@@ -5,7 +5,7 @@ import SideNavigation, {
   SideNavigationProps,
 } from "@cloudscape-design/components/side-navigation";
 
-const navHeader = { text: "Voz Amigo", href: "#/" };
+const navHeader = { text: "Trend Bit", href: "#/" };
 export const navItems: SideNavigationProps["items"] = [
   {
     type: "section",

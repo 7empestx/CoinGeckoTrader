@@ -267,7 +267,7 @@ export class CdkStack extends cdk.Stack {
     table.grantFullAccess(trendbitLambdaFunction);
 
     const rule = new events.Rule(this, 'Rule', {
-      schedule: events.Schedule.expression('rate(1 day)')
+      schedule: events.Schedule.expression('rate(1 hour)')
 
     });
 

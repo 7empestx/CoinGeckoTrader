@@ -62,6 +62,10 @@ export const coinUpdateHandler = async () => {
     await fetchAndStoreTrendingTickers();
     return {
       statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         message: "Successfully updated trending coins data",
       }),
@@ -70,6 +74,10 @@ export const coinUpdateHandler = async () => {
     console.error("Failed to update coin data:", error);
     return {
       statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify({
         message: "Failed to fetch and update trending coins",
       }),

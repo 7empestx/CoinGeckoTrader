@@ -15,12 +15,7 @@ import { DashboardSideNavigation } from "./components/side-navigation";
 import { Breadcrumbs, Notifications, HelpPanelProvider } from "./commons";
 import {
   BaseStaticWidget,
-  personalizedLearningPath,
-  interactiveExercises,
-  realWorldScenarios,
-  adaptiveFeedback,
-  culturalImmersion,
-  assessmentWidget,
+  trendingCoins
 } from "./widgets";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -37,22 +32,8 @@ function WidgetContent() {
       ]}
     >
       {[
-        personalizedLearningPath,
-        interactiveExercises,
-        realWorldScenarios,
-        adaptiveFeedback,
-        culturalImmersion,
+        trendingCoins,
       ].map((widget, index) => (
-        <BaseStaticWidget key={index} config={widget.data} />
-      ))}
-    </Grid>
-  );
-}
-
-function AssessmentContent() {
-  return (
-    <Grid gridDefinition={[{ colspan: { l: 12, m: 12, default: 12 } }]}>
-      {[assessmentWidget].map((widget, index) => (
         <BaseStaticWidget key={index} config={widget.data} />
       ))}
     </Grid>
@@ -64,7 +45,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/assessment" element={<Main />} />
       </Routes>
     </Router>
   );
@@ -84,13 +64,6 @@ export default function Main() {
     appLayout.current?.focusToolsClose();
   };
 
-  const contentToRender =
-    location.pathname === "/assessment" ? (
-      <AssessmentContent />
-    ) : (
-      <WidgetContent />
-    );
-
   return (
     <HelpPanelProvider value={handleToolsContentChange}>
       <CustomAppLayout
@@ -105,13 +78,13 @@ export default function Main() {
                     target="_blank"
                     variant="primary"
                   >
-                    Support Voz Amigo
+                    Support Trend Bit
                   </Button>
                 }
               />
             }
           >
-            {contentToRender}
+          <WidgetContent />
           </ContentLayout>
         }
         breadcrumbs={<Breadcrumbs items={[{ text: "Dashboard", href: "/" }]} />}

@@ -12,7 +12,7 @@ export function Breadcrumbs({
 }) {
   return (
     <BreadcrumbGroup
-      items={[{ text: "Voz Amigo", href: "#" }, ...items]}
+      items={[{ text: "Trend Bit", href: "#" }, ...items]}
       expandAriaLabel="Show path"
       ariaLabel="Breadcrumbs"
     />
