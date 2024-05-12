@@ -3,6 +3,7 @@ import httpHeaderNormalizer from "@middy/http-header-normalizer";
 import httpRouterHandler from "@middy/http-router";
 import { coinUpdateHandler } from "./handlers/coinUpdate";
 import { getTrendingCoinsHandler } from "./handlers/getTrendingCoins";
+import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
 
 enum HttpMethod {
   GET = "GET",
@@ -24,6 +25,16 @@ const routes = [
   },
 ];
 
-export const handler = middy()
+const lambdaHandler = middy()
   .use(httpHeaderNormalizer())
   .handler(httpRouterHandler(routes));
+
+export const handler = async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
+  // Check if the event is from EventBridge
+  if (event.source === "aws.events") {
+    event.httpMethod = "POST"; // Set the method expected by the router
+    event.path = "/update-trending-coins"; // Direct the function to the correct route
+  }
+
+  return lambdaHandler(event, context);
+};

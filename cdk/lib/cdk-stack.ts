@@ -270,6 +270,13 @@ export class CdkStack extends cdk.Stack {
       schedule: events.Schedule.expression('rate(1 day)')
 
     });
-    rule.addTarget(new targets.LambdaFunction(trendbitLambdaFunction));
+
+    rule.addTarget(
+      new targets.ApiGateway(api, {
+        path: '/udpate-trending-coins',
+        method: 'POST',
+        stage: 'prod',
+      }),
+    )
   }
 }
