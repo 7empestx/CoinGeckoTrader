@@ -12,6 +12,8 @@ export const getTrendingCoinsHandler = async (): Promise<any> => {
 
   try {
     const result = await db.scan(params).promise();
+    // Sorting the results by 'count' in descending order
+    const sortedItems = result.Items.sort((a, b) => a.count - b.count);
     return {
       statusCode: 200,
       headers: {
@@ -20,7 +22,7 @@ export const getTrendingCoinsHandler = async (): Promise<any> => {
       },
       body: JSON.stringify({
         message: "Successfully fetched trending coins data",
-        coins: result.Items,
+        coins: sortedItems,
       }),
     };
   } catch (error) {

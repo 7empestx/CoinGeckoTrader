@@ -13,10 +13,7 @@ import { DashboardHeader, DashboardMainInfo } from "./components/header";
 import { CustomAppLayout } from "./commons/common-components";
 import { DashboardSideNavigation } from "./components/side-navigation";
 import { Breadcrumbs, Notifications, HelpPanelProvider } from "./commons";
-import {
-  BaseStaticWidget,
-  trendingCoins
-} from "./widgets";
+import { BaseStaticWidget, trendingCoins } from "./widgets";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -31,9 +28,7 @@ function WidgetContent() {
         { colspan: { l: 12, m: 12, default: 12 } },
       ]}
     >
-      {[
-        trendingCoins,
-      ].map((widget, index) => (
+      {[trendingCoins].map((widget, index) => (
         <BaseStaticWidget key={index} config={widget.data} />
       ))}
     </Grid>
@@ -84,7 +79,7 @@ export default function Main() {
               />
             }
           >
-          <WidgetContent />
+            <WidgetContent />
           </ContentLayout>
         }
         breadcrumbs={<Breadcrumbs items={[{ text: "Dashboard", href: "/" }]} />}

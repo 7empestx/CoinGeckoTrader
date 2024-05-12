@@ -18,9 +18,7 @@ export function DashboardMainInfo() {
         />
       }
     >
-      <p>
-        Under Construction
-      </p>
+      <p>Under Construction</p>
     </HelpPanel>
   );
 }

@@ -7,6 +7,9 @@ import { WidgetConfig } from "../interfaces";
 import Table from "@cloudscape-design/components/table";
 import { useState, useEffect } from "react";
 import body from "../../../../config/body.json";
+import TextFilter from "@cloudscape-design/components/text-filter";
+import Pagination from "@cloudscape-design/components/pagination";
+import CollectionPreferences from "@cloudscape-design/components/collection-preferences";
 
 export const trendingCoins: WidgetConfig = {
   definition: { defaultRowSpan: 3, defaultColumnSpan: 2 },
@@ -36,20 +39,24 @@ function TrendingCoinsFooter() {
 }
 
 export default function TrendingCoins() {
-  console.log(body);
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await
-          fetch('https://api.trendbit.grantstarkman.com/get-trending-coins', {
-            method: 'GET',
+        const response = await fetch(
+          "https://api.trendbit.grantstarkman.com/get-trending-coins",
+          {
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-          });
+          },
+        );
         const data = await response.json();
         setCoins(data.coins);
         setLoading(false);
@@ -62,21 +69,66 @@ export default function TrendingCoins() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  // Filter coins based on the filterText
+  const filteredCoins = coins.filter((coin) =>
+    coin.name.toLowerCase().includes(filterText.toLowerCase()),
+  );
+
+  console.log("filteredCoins", filteredCoins);
 
   return (
-    <>
-      <Table
-        items={coins}
-        columnDefinitions={[
-          { heading: "Name", cell: item => item.name },
-          { heading: "Symbol", cell: item => item.symbol },
-          { heading: "Market Cap Rank", cell: item => item.marketCapRank },
-          { heading: "Count", cell: item => item.count }
-        ]}
-        variant="embedded"
-      />
-    </>
+    <Table
+      items={filteredCoins}
+      sortingDescending
+      columnDefinitions={[
+        { id: 'name', header: 'Name', sortingField: "name", cell: item => item.name },
+        { id: 'symbol', header: 'Symbol', cell: item => item.symbol },
+        { id: 'marketCapRank', header: 'Market Cap Rank', cell: item => item.marketCapRank },
+        { id: 'count', header: 'Count', cell: item => item.count }
+      ]}
+      selectionType="multi"
+      selectedItems={selectedItems}
+      onSelectionChange={({ detail }) => setSelectedItems(detail.selectedItems)}
+      trackBy="id"
+      loadingText="Loading coins..."
+      loading={loading}
+      empty={
+        <Box textAlign="center" padding="s">
+          No coins found.
+        </Box>
+      }
+      filter={
+        <TextFilter
+          filteringPlaceholder="Search coins"
+          filteringText={filterText}
+          onChange={({ detail }) => setFilterText(detail.filteringText)}
+        />
+      }
+      header={
+        <Header
+          counter={
+            selectedItems.length ? `(${selectedItems.length} selected)` : ""
+          }
+        ></Header>
+      }
+      pagination={
+        <Pagination
+          currentPageIndex={currentPage - 1}
+          pagesCount={Math.ceil(filteredCoins.length / 10)}
+          onChange={({ detail }) => setCurrentPage(detail.currentPageIndex + 1)}
+        />
+      }
+      preferences={
+        <CollectionPreferences
+          title="Configure Table"
+          confirmLabel="Confirm"
+          cancelLabel="Cancel"
+          preferences={{
+            pageSize: 10,
+            visibleContent: ["name", "symbol", "marketCapRank", "count"],
+          }}
+        />
+      }
+    />
   );
 }
-
