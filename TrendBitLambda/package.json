@@ -15,6 +15,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@middy/core": "^5.3.4",
+    "@middy/http-header-normalizer": "^5.3.4",
+    "@middy/http-router": "^5.3.4",
+    "@middy/validator": "^5.3.4",
     "aws-sdk": "^2.1617.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
@@ -23,6 +27,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.137",
     "@types/node": "^20.12.5",
+    "ajv-cmd": "^0.3.4",
     "esbuild": "^0.20.2",
     "nodemon": "^3.1.0",
     "prettier": "3.2.5",

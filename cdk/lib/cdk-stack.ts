@@ -14,6 +14,8 @@ import * as path from "path";
 import * as ecr from "aws-cdk-lib/aws-ecr";
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
 
 interface CustomStackProps extends cdk.StackProps {
   stage: string;
@@ -254,5 +256,11 @@ export class CdkStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
     table.grantFullAccess(trendbitLambdaFunction);
+
+    const rule = new events.Rule(this, 'Rule', {
+      schedule: events.Schedule.expression('rate(1 day)')
+
+    });
+    rule.addTarget(new targets.LambdaFunction(trendbitLambdaFunction));
   }
 }
