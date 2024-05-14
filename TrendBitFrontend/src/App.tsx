@@ -22,10 +22,6 @@ function WidgetContent() {
     <Grid
       gridDefinition={[
         { colspan: { l: 12, m: 12, default: 12 } },
-        { colspan: { l: 12, m: 12, default: 12 } },
-        { colspan: { l: 12, m: 12, default: 12 } },
-        { colspan: { l: 12, m: 12, default: 12 } },
-        { colspan: { l: 12, m: 12, default: 12 } },
       ]}
     >
       {[trendingCoins].map((widget, index) => (

@@ -1,8 +1,20 @@
 import AWS from "aws-sdk";
 import axios from "axios";
+import * as dotenv from "dotenv";
+
 AWS.config.update({ region: "us-east-1" });
 
+dotenv.config();
+
 const db = new AWS.DynamoDB.DocumentClient();
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const fromNumber = process.env.TWILIO_PHONE_NUMBER;
+const toNumber = process.env.MY_PHONE_NUMBER;
+
+const client = require('twilio')(accountSid, authToken);
+
 const COINGECKO_TRENDING_ENDPOINT =
   "https://api.coingecko.com/api/v3/search/trending";
 
@@ -31,10 +43,15 @@ const updateCoinData = async (coin: any): Promise<void> => {
 
   try {
     const response = await db.update(params).promise();
+
+    if (response?.Attributes?.count === 1) {
+      const message = `New Coin Alert: ${coin.name} (${coin.symbol}) is now trending!`;
+    }
+
     console.log("Updated response:", response);
   } catch (error) {
     console.error("Error updating coin data:", error);
-    throw error; // Re-throwing the error is good for catching it in the higher-level function
+    throw error;
   }
 };
 

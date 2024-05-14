@@ -16,6 +16,7 @@ import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as triggers from 'aws-cdk-lib/triggers';
 
 interface CustomStackProps extends cdk.StackProps {
   stage: string;
@@ -277,6 +278,10 @@ export class CdkStack extends cdk.Stack {
         method: 'POST',
         stage: 'prod',
       }),
+    )
+
+    rule.addTarget(
+      new targets.LambdaFunction(trendbitLambdaFunction)
     )
   }
 }

@@ -30,11 +30,8 @@ function TrendingCoinsHeader() {
 
 function TrendingCoinsFooter() {
   return (
-    <Box textAlign="center">
-      <Link href="#" variant="primary">
-        View More
-      </Link>
-    </Box>
+    <>
+    </>
   );
 }
 
@@ -81,14 +78,20 @@ export default function TrendingCoins() {
       items={filteredCoins}
       sortingDescending
       columnDefinitions={[
-        { id: 'name', header: 'Name', sortingField: "name", cell: item => item.name },
-        { id: 'symbol', header: 'Symbol', cell: item => item.symbol },
-        { id: 'marketCapRank', header: 'Market Cap Rank', cell: item => item.marketCapRank },
-        { id: 'count', header: 'Count', cell: item => item.count }
+        {
+          id: "name",
+          header: "Name",
+          sortingField: "name",
+          cell: (item) => item.name,
+        },
+        { id: "symbol", header: "Symbol", cell: (item) => item.symbol },
+        {
+          id: "marketCapRank",
+          header: "Market Cap Rank",
+          cell: (item) => item.marketCapRank,
+        },
+        { id: "count", header: "Count", cell: (item) => item.count },
       ]}
-      selectionType="multi"
-      selectedItems={selectedItems}
-      onSelectionChange={({ detail }) => setSelectedItems(detail.selectedItems)}
       trackBy="id"
       loadingText="Loading coins..."
       loading={loading}
@@ -110,24 +113,6 @@ export default function TrendingCoins() {
             selectedItems.length ? `(${selectedItems.length} selected)` : ""
           }
         ></Header>
-      }
-      pagination={
-        <Pagination
-          currentPageIndex={currentPage - 1}
-          pagesCount={Math.ceil(filteredCoins.length / 10)}
-          onChange={({ detail }) => setCurrentPage(detail.currentPageIndex + 1)}
-        />
-      }
-      preferences={
-        <CollectionPreferences
-          title="Configure Table"
-          confirmLabel="Confirm"
-          cancelLabel="Cancel"
-          preferences={{
-            pageSize: 10,
-            visibleContent: ["name", "symbol", "marketCapRank", "count"],
-          }}
-        />
       }
     />
   );
