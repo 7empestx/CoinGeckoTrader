@@ -13,7 +13,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const fromNumber = process.env.TWILIO_PHONE_NUMBER;
 const toNumber = process.env.MY_PHONE_NUMBER;
 
-const client = require('twilio')(accountSid, authToken);
+//const client = require('twilio')(accountSid, authToken);
 
 const COINGECKO_TRENDING_ENDPOINT =
   "https://api.coingecko.com/api/v3/search/trending";
